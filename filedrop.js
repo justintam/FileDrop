@@ -2001,7 +2001,12 @@
       if (!self.size) {
         // Zero size also indicates that it might be a directory.
         global.hasConsole && console.warn('Trying to send an empty FileDrop.File.')
-      } else if (window.FileReader) {
+      }
+      // Commented out this section as it causes memory problems outside of Firefox.
+      // Progress bar and file uploads sticking issues fixed when this is removed
+      // Refer to https://github.com/ProgerXP/FileDrop/issues/36 (jtam, 2023.03.24)
+      /*
+      else if (window.FileReader) {
         // Using Firefox FileAPI.
         var reader = new FileReader
 
@@ -2009,7 +2014,9 @@
         reader.onerror = function (e) { global.callAllOfObject(self, 'error', [e]) }
 
         reader.readAsArrayBuffer(self.nativeFile)
-      } else {
+      }
+      */
+      else {
         // Using early Chrome/Safari File API.
         self.sendDataReadyTo(opt)
       }
